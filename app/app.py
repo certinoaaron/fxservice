@@ -20,6 +20,8 @@ class FxConvertView(MethodView):
         :rtype: dict
         """
         app.logger.debug("entered get method in FxConvertView")
+
+        return {"data" : data, "meta": {}}
     
     def post(self) -> dict:
         """ post data 
