@@ -10,11 +10,11 @@ app.logger.setLevel(logging.DEBUG)
 
 
 class FxConvertView(MethodView):
-    """ FxConvertView 
+    """ FxConvertView
     """
 
     def get(self) -> dict:
-        """ get some conversion rate 
+        """ get some conversion rate
 
         :return: conversion rate
         :rtype: dict
