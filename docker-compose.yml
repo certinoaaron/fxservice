@@ -1,0 +1,13 @@
+version: "3.5"
+services:
+  fxservice:
+    image: fxservice:latest
+    ports: 
+      - "5100:5100"
+    networks:
+      - compose_default
+      
+# defined to connect to local platform network
+networks: 
+  compose_default:
+    name: compose_default

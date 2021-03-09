@@ -1,0 +1,6 @@
+- transparency to end user, we need to explain rate that was used on value, consider do we send back original value.
+- If no free source of fx rates via API or solution then a user (TS or CS) will need to update and add additional values to DB
+- CRUD Interface to review values, allows users to view existing rates and update (prior point)
+- example calls?: 
+- average/GBP/USD/2020-01-31
+- eom/GBP/USD/2020-01-31
