@@ -1,4 +1,4 @@
-# FX Covnert
+# FX Convert
 
 version 0.0.1
 
