@@ -1,4 +1,5 @@
 import requests
+from flask import request
 
 def yield_data(data):
     if data == None:
@@ -12,3 +13,14 @@ def yield_data(data):
                 yield from yield_data(d) 
         else:
             yield row
+
+
+def get_url_params() -> (dict, str):
+    _from = request.args.get("from")
+    to = request.args.get("to")
+    amount = request.args.get("amount")
+    if None in (_from, to, amount):
+        return None
+    date = request.args.get("date")
+
+    return {"from": _from, "to": to, "amount": amount, "date": date}

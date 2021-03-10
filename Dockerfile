@@ -1,32 +1,17 @@
-FROM python:3.9 as base
-
-# setup env
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONFAULTHANDLER 1
-
-FROM base AS python-deps
+FROM python:3.9-slim as python-deps
 
 RUN pip install pipenv
-RUN apt update && apt install -y --no-install-recommends
+COPY Pipfile /tmp
+RUN cd /tmp && pipenv lock --keep-outdated --requirements > requirements.txt
+RUN pip install -r /tmp/requirements.txt
 
-# install python deps in .venv
-COPY Pipfile .
-COPY Pipfile.lock .
-RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy
+FROM python-deps AS runtime 
 
-FROM base AS runtime
-
-# Copy venv from python-deps
-COPY --from=python-deps /.venv /.venv
-ENV PATH="/.venv/bin:$PATH"
-COPY Pipfile.lock .
-RUN pipenv install
-
+ENV FXDATA_URL  127.0.0.1
 # install app into container
 WORKDIR /app
 COPY /app .
+COPY entrypoint.sh /usr/bin/
 
 # Run the app
-ENTRYPOINT ["flask" , "run" ,"--host=0.0.0.0", "--port=5100"]
+ENTRYPOINT ["entrypoint.sh"]
