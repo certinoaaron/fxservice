@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 flask = "*"
 requests = "*"
-black = "20.8b1"
 
 [dev-packages]
 
