@@ -5,3 +5,8 @@ build:
 .PHONY: test
 test:
 	pytest -s -v
+
+.PHONY: format
+
+format:
+	black .

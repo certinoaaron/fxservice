@@ -1,5 +1,3 @@
-
-
 def calculate_fx(current: float, rate: float) -> float:
     """calculates exchange rate
 
@@ -11,5 +9,4 @@ def calculate_fx(current: float, rate: float) -> float:
     :rtype: float
     """
 
-    return current * rate 
-
+    return current * rate

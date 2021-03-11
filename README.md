@@ -15,10 +15,23 @@ Service used to calculate exchange rate
 make test
 ```
 
+## Auto format
+re-format's code to PEP 8 standard
+
+```bash
+make format
+```
+
+## Deploy Locally
+
+```bash
+docker-compose up
+```
+
 ## Usage
 
 ```bash
-curl https://fxconvert/convert?from=GBP&to=USD&amount=1&date=2021-03-09
+curl http://fxconvert/convert?from=GBP&to=USD&amount=1&date=2021-03-09
 ```
 
 if successful the command should return 

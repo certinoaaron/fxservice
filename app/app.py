@@ -2,7 +2,7 @@ import logging
 import requests
 from flask import Flask, request, jsonify
 from flask.views import MethodView
-from .utils.response import 
+from .utils.response import response_builder
 from .utils.extract import yield_data, get_url_params
 
 
@@ -11,7 +11,6 @@ app.logger.setLevel(logging.DEBUG)
 
 
 class HealthCheck(MethodView):
-
     def get(self):
         app.logger.debug("entered get method in HealthCheck")
         return 200
@@ -31,12 +30,8 @@ class FxConvertView(MethodView):
         params = get_url_params()
         if not params:
 
-            # TODO: add response builder here 
-            return { "success": False }, 422
-
-        
-
-        
+            # TODO: add response builder here
+            return {"success": False}, 422
 
         return {"success": True}, 200
 
