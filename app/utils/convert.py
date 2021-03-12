@@ -1,7 +1,4 @@
-from decimal import Decimal
-
-
-def calculate_fx(current: Decimal, rate: Decimal) -> Decimal:
+def calculate_fx(current: float, rate: float) -> float:
     """calculates exchange rate
 
     :param current: current value
@@ -12,4 +9,4 @@ def calculate_fx(current: Decimal, rate: Decimal) -> Decimal:
     :rtype: float
     """
 
-    return current * rate
+    return float(current * rate)

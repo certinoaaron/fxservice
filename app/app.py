@@ -42,9 +42,13 @@ class FxConvertView(MethodView):
             )
             return response.to_dict(), 422
 
-
-
-        req = requests.get(FX_DATA_URL + "?from={}&to={}&date={}".format(params["from"], params["to"], params['date']))
+        # TODO: improve this service call
+        req = requests.get(
+            FX_DATA_URL
+            + "?from={}&to={}&date={}".format(
+                params["from"], params["to"], params["date"]
+            )
+        )
         if req.status_code != 200:
             app.logger.error(
                 "failure from fxdata with status {}".format(req.status_code)

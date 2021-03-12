@@ -7,6 +7,9 @@ test:
 	pytest -s -v
 
 .PHONY: format
-
 format:
 	black .
+
+.PHONY: coverage
+coverage:
+	pytest --cov=app tests/

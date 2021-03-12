@@ -1,8 +1,7 @@
 # FX Convert
 
-version 0.0.1
+Internal service used to calculate exchange rates using fxdata as it's cache/data layer
 
-Service used to calculate exchange rate 
 
 
 ## General Overview
@@ -17,22 +16,30 @@ make test
 
 ## Coverage
 
-current total covrage is 78%
+current total coverage is 73%
 
 ```bash
+$ make coverage
+pytest --cov=app tests/
+=============================================================================================== test session starts ===============================================================================================
+platform linux -- Python 3.8.5, pytest-6.2.2, py-1.10.0, pluggy-0.13.1
+rootdir: /home/aaron/Desktop/Projects/fxservice
+plugins: cov-2.11.1
+collected 2 items                                                                                                                                                                                                 
+
+tests/test_fxconvert.py ..                                                                                                                                                                                  [100%]
+
 ----------- coverage: platform linux, python 3.8.5-final-0 -----------
-Name                      Stmts   Miss  Cover
----------------------------------------------
-app/__init__.py               0      0   100%
-app/app.py                   33     10    70%
-app/utils/__init__.py         0      0   100%
-app/utils/convert.py          3      0   100%
-app/utils/extract.py         20     11    45%
-app/utils/response.py        25      1    96%
-tests/__init__.py             0      0   100%
-tests/test_fxconvert.py      22      1    95%
----------------------------------------------
-TOTAL                       103     23    78%
+Name                    Stmts   Miss  Cover
+-------------------------------------------
+app/__init__.py             0      0   100%
+app/app.py                 33     10    70%
+app/utils/__init__.py       0      0   100%
+app/utils/convert.py        3      0   100%
+app/utils/extract.py       20     11    45%
+app/utils/response.py      25      1    96%
+-------------------------------------------
+TOTAL                      81     22    73%
 
 ```
 

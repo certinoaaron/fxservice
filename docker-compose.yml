@@ -2,7 +2,7 @@ version: "3.5"
 services:
   fxservice:
     image: fxservice:latest
-    ports: 
+    ports:
       - "5101:5101"
     networks:
       - compose_default
