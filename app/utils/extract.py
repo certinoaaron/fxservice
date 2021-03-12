@@ -18,12 +18,11 @@ def yield_data(data):
             yield row
 
 
-def get_url_params() -> (dict, str):
+def get_url_params() -> (dict, bool):
     _from = request.args.get("from")
     to = request.args.get("to")
     amount = request.args.get("amount")
     if None in (_from, to, amount):
-        return None
+        return {"from": _from, "to": to, "amount": amount}, True
     date = request.args.get("date")
-
-    return {"from": _from, "to": to, "amount": amount, "date": date}
+    return {"from": _from, "to": to, "amount": amount, "date": date}, False

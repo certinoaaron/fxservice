@@ -29,7 +29,7 @@ class Response:
 def response_builder(
     success=False, from_="", to="", amount="", date="", rate="", result=""
 ) -> Response:
-    """ builds json response
+    """builds json response
 
     :param success: [description], defaults to False
     :type success: bool, optional

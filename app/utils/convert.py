@@ -1,4 +1,7 @@
-def calculate_fx(current: float, rate: float) -> float:
+from decimal import Decimal
+
+
+def calculate_fx(current: Decimal, rate: Decimal) -> Decimal:
     """calculates exchange rate
 
     :param current: current value

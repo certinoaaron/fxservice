@@ -3,7 +3,7 @@ services:
   fxservice:
     image: fxservice:latest
     ports: 
-      - "5100:5100"
+      - "5101:5101"
     networks:
       - compose_default
       
