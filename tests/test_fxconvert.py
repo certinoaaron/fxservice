@@ -20,4 +20,11 @@ def test_missing_url_params(client):
 
 
 def test_convert():
-    assert "wrong result given != 1.20"
+
+    result = convert.calculate_fx("1", "1.2")
+    if result != Decimal("1.20"):
+        assert 0
+
+
+        
+    

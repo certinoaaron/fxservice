@@ -3,6 +3,7 @@ import requests
 from flask import Flask, request, jsonify
 from flask.views import MethodView
 from .utils.response import response_builder
+from .utils.convert import calculate_fx
 from .utils.extract import yield_data, get_url_params
 
 
@@ -49,6 +50,7 @@ class FxConvertView(MethodView):
                 params["from"], params["to"], params["date"]
             )
         )
+
         if req.status_code != 200:
             app.logger.error(
                 "failure from fxdata with status {}".format(req.status_code)
@@ -66,11 +68,16 @@ class FxConvertView(MethodView):
             )
             return response.to_dict(), req.status_code
 
+        data = req.json()
+
+        result = calculate_fx(str(params["amount"]), str(data['rate']))
+
         response = response = response_builder(
             success=True,
             from_=params["from"],
             to=params["to"],
             amount=params["amount"],
+            result=result
         )
         return response.to_dict(), 200
 
