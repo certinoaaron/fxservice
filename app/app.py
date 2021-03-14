@@ -70,7 +70,31 @@ class FxConvertView(MethodView):
 
         data = req.json()
 
-        result = calculate_fx(str(params["amount"]), str(data['rate']))
+        try:
+            result = calculate_fx(str(params["amount"]), str(data['rate']))
+        except requests.exceptions.ConnectionError as e:
+            app.logger.error(e)
+            app.logger.error("Unable to connect to fxdata, returning a 503 :(")
+            response = response_builder(
+                success=False,
+                from_=params["from"],
+                to=params["to"],
+                amount=params["amount"],
+            )
+            return response.to_dict(), 503
+        except Exception as e:
+            app.logger.error(e)
+            app.logger.error("This is a catch all error, unsure what's happened ")
+            response = response_builder(
+                success=False,
+                from_=params["from"],
+                to=params["to"],
+                amount=params["amount"],
+            )
+            return response.to_dict(), 503
+
+
+
 
         response = response = response_builder(
             success=True,
