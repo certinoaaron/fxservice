@@ -13,7 +13,7 @@ app.logger.setLevel(logging.DEBUG)
 app.config["JSON_SORT_KEYS"] = False
 
 
-FX_DATA_URL = "http://fxdata:5200/"
+FX_DATA_URL = "http://fxdata:5200/getRates"
 
 
 class HealthCheck(MethodView):
