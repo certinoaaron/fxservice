@@ -13,7 +13,7 @@ app.logger.setLevel(logging.DEBUG)
 app.config["JSON_SORT_KEYS"] = False
 
 
-FX_DATA_URL = "http://fxdata:8080/"
+FX_DATA_URL = "http://fxdata:5200/"
 
 
 class HealthCheck(MethodView):
@@ -50,7 +50,7 @@ class FxConvertView(MethodView):
             date = datetime.datetime.now().date()
         else:
             date = params["date"]
-            
+
         req = requests.get(
             FX_DATA_URL
             + "?from={}&to={}&date={}".format(
