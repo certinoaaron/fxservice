@@ -6,7 +6,7 @@ from flask.views import MethodView
 from .utils.response import response_builder
 from .utils.convert import calculate_fx
 from .utils.extract import yield_data, get_url_params
-from .utils.errors import UnprocessableEntity, ServiceUnavailable
+from .utils.errors import UnprocessableEntity, ServiceUnavailable, NotFound
 
 
 app = Flask(__name__, static_folder=None)
@@ -38,6 +38,17 @@ def handle_service_unavailable(error):
     return jsonify(payload), 503
 
 
+@app.errorhandler(NotFound)
+def handle_not_found(error):
+    app.logger.debug(error.message)
+    payload = dict(error.payload or ())
+    payload['success'] = False
+    payload['code'] = error.status
+    payload['message'] = error.message
+    return jsonify(payload), 404
+
+
+
 class HealthCheck(MethodView):
     def get(self):
         app.logger.debug("entered get method in HealthCheck")
@@ -66,19 +77,18 @@ class FxConvertView(MethodView):
             )
         )
 
+        data = req.json()
+
         if req.status_code != 200:
+            if req.status_code == 404:
+                raise NotFound("{}".format(data['message']))
             raise ServiceUnavailable("failure from fxdata with status {}".format(req.status_code))
 
-        data = req.json()
-        app.logger.info("result from fxdata: {}".format(data))
+        app.logger.debug("result from fxdata: {}".format(data))
 
-        try:
-            result = calculate_fx(str(params["amount"]), str(data['detail']['rate']))
-        except Exception as e:
-            app.logger.error(e)
-            raise ServiceUnavailable("failure: {}".format(e))
+        result = calculate_fx(str(params["amount"]), str(data['detail']['rate']))
 
-        response = response = response_builder(
+        response = response_builder(
             success=True,
             from_=params["from"],
             to=params["to"],
