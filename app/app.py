@@ -6,6 +6,7 @@ from flask.views import MethodView
 from .utils.response import response_builder
 from .utils.convert import calculate_fx
 from .utils.extract import yield_data, get_url_params
+from .utils.errors import UnprocessableEntity, ServiceUnavailable
 
 
 app = Flask(__name__, static_folder=None)
@@ -14,6 +15,25 @@ app.config["JSON_SORT_KEYS"] = False
 
 
 FX_DATA_URL = "http://fxdata:5200/getRates"
+
+
+@app.errorhandler(UnprocessableEntity)
+def handle_unprocessable_entity(error):
+    app.logger.debug("required parameters are missing!!")
+    payload = dict(error.payload or ())
+    payload['success'] = error.status
+    payload['message'] = error.message
+    return jsonify(payload), 422
+
+
+
+@app.errorhandler(ServiceUnavailable)
+def handle_service_unavailable(error):
+    app.logger.debug(error.message)
+    payload = dict(error.payload or ())
+    payload['success'] = error.status
+    payload['message'] = error.message
+    return jsonify(payload), 503
 
 
 class HealthCheck(MethodView):
@@ -35,21 +55,7 @@ class FxConvertView(MethodView):
             date = params["date"]
 
         if err:
-            app.logger.debug("required parameters are missing!! {}".format(params))
-            app.logger.info(
-                "sending 422 Unprocessable Entity status to client -> {}".format(
-                    request.remote_addr
-                )
-            )
-            response = response_builder(
-                success=False,
-                from_=params["from"],
-                to=params["to"],
-                amount=params["amount"],
-                date=date
-            )
-            return response.to_dict(), 422
-
+            raise UnprocessableEntity("Missing required parameters")
 
         req = requests.get(
             FX_DATA_URL
@@ -59,22 +65,7 @@ class FxConvertView(MethodView):
         )
 
         if req.status_code != 200:
-            app.logger.error(
-                "failure from fxdata with status {}".format(req.status_code)
-            )
-            app.logger.info(
-                "forwarding fxdata status code on to client -> {}".format(
-                    request.remote_addr
-                )
-            )
-            response = response_builder(
-                success=False,
-                from_=params["from"],
-                to=params["to"],
-                amount=params["amount"],
-                date=date
-            )
-            return response.to_dict(), req.status_code
+            raise ServiceUnavailable("failure from fxdata with status {}".format(req.status_code))
 
         data = req.json()
         app.logger.info("result from fxdata: {}".format(data))
@@ -83,16 +74,7 @@ class FxConvertView(MethodView):
             result = calculate_fx(str(params["amount"]), str(data['detail']['rate']))
         except Exception as e:
             app.logger.error(e)
-            app.logger.error("This is a catch all error")
-            response = response_builder(
-                success=False,
-                from_=params["from"],
-                to=params["to"],
-                amount=params["amount"],
-                date=date
-            )
-            return response.to_dict(), 503
-
+            raise ServiceUnavailable("failure: {}".format(e))
 
         response = response = response_builder(
             success=True,
@@ -100,8 +82,9 @@ class FxConvertView(MethodView):
             to=params["to"],
             amount=params["amount"],
             date=date,
-            result=result
+            result=str(result)
         )
+
         return response.to_dict(), 200
 
 
