@@ -21,7 +21,8 @@ FX_DATA_URL = "http://fxdata:5200/getRates"
 def handle_unprocessable_entity(error):
     app.logger.debug("required parameters are missing!!")
     payload = dict(error.payload or ())
-    payload['success'] = error.status
+    payload['success'] = False
+    payload['code'] = error.status
     payload['message'] = error.message
     return jsonify(payload), 422
 
@@ -31,7 +32,8 @@ def handle_unprocessable_entity(error):
 def handle_service_unavailable(error):
     app.logger.debug(error.message)
     payload = dict(error.payload or ())
-    payload['success'] = error.status
+    payload['success'] = False
+    payload['code'] = error.status
     payload['message'] = error.message
     return jsonify(payload), 503
 
