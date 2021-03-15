@@ -104,9 +104,6 @@ class FxConvertView(MethodView):
         )
         return response.to_dict(), 200
 
-    def send_response(self):
-
-
 
 app.add_url_rule("/convert", view_func=FxConvertView.as_view("conversion_view"))
 app.add_url_rule("/healthcheck", view_func=HealthCheck.as_view("healthcheck_view"))
