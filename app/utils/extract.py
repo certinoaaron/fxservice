@@ -23,6 +23,6 @@ def get_url_params() -> (dict, bool):
     to = request.args.get("to")
     amount = request.args.get("amount")
     if None in (_from, to, amount):
-        return {"from": _from, "to": to, "amount": amount, "date": None }, True
+        return {"from": _from, "to": to, "amount": amount, "date": None}, True
     date = request.args.get("date")
     return {"from": _from, "to": to, "amount": amount, "date": date}, False

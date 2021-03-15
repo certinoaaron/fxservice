@@ -50,9 +50,6 @@ class FxConvertView(MethodView):
             )
             return response.to_dict(), 422
 
-        # TODO: improve this service call
-
-       
 
         req = requests.get(
             FX_DATA_URL
@@ -80,21 +77,10 @@ class FxConvertView(MethodView):
             return response.to_dict(), req.status_code
 
         data = req.json()
+        app.logger.info("result from fxdata: {}".format(data))
 
         try:
-            result = calculate_fx(str(params["amount"]), str(data['rate']))
-        except requests.exceptions.ConnectionError as e:
-            app.logger.error(e)
-            app.logger.error("Unable to connect to fxdata, returning a 503 :(")
-            response = response_builder(
-                success=False,
-                from_=params["from"],
-                to=params["to"],
-                amount=params["amount"],
-                date=date
-            )
-            return response.to_dict(), 503
-
+            result = calculate_fx(str(params["amount"]), str(data['details']['rate']))
         except Exception as e:
             app.logger.error(e)
             app.logger.error("This is a catch all error")
@@ -117,6 +103,9 @@ class FxConvertView(MethodView):
             result=result
         )
         return response.to_dict(), 200
+
+    def send_response(self):
+
 
 
 app.add_url_rule("/convert", view_func=FxConvertView.as_view("conversion_view"))
