@@ -47,7 +47,7 @@ class FxConvertView(MethodView):
         # TODO: improve this service call
 
         if params["date"] == None:
-            date = datetime.datetime.now().date()
+            date = datetime.datetime.now().date().strftime("%Y-%m-%d")
         else:
             date = params["date"]
 
