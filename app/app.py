@@ -80,7 +80,7 @@ class FxConvertView(MethodView):
         app.logger.info("result from fxdata: {}".format(data))
 
         try:
-            result = calculate_fx(str(params["amount"]), str(data['details']['rate']))
+            result = calculate_fx(str(params["amount"]), str(data['detail']['rate']))
         except Exception as e:
             app.logger.error(e)
             app.logger.error("This is a catch all error")
