@@ -29,6 +29,11 @@ class FxConvertView(MethodView):
         app.logger.debug("entered get method in FxConvert")
 
         params, err = get_url_params()
+        if params["date"] == None:
+            date = datetime.datetime.now().date().strftime("%Y-%m-%d")
+        else:
+            date = params["date"]
+
         if err:
             app.logger.debug("required parameters are missing!! {}".format(params))
             app.logger.info(
@@ -41,15 +46,13 @@ class FxConvertView(MethodView):
                 from_=params["from"],
                 to=params["to"],
                 amount=params["amount"],
+                date=date
             )
             return response.to_dict(), 422
 
         # TODO: improve this service call
 
-        if params["date"] == None:
-            date = datetime.datetime.now().date().strftime("%Y-%m-%d")
-        else:
-            date = params["date"]
+       
 
         req = requests.get(
             FX_DATA_URL
