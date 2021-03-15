@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+
 def calculate_fx(current: float, rate: float) -> Decimal:
     """calculates exchange rate
 

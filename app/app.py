@@ -21,20 +21,19 @@ FX_DATA_URL = "http://fxdata:5200/getRates"
 def handle_unprocessable_entity(error):
     app.logger.debug("required parameters are missing!!")
     payload = dict(error.payload or ())
-    payload['success'] = False
-    payload['code'] = error.status
-    payload['message'] = error.message
+    payload["success"] = False
+    payload["code"] = error.status
+    payload["message"] = error.message
     return jsonify(payload), 422
-
 
 
 @app.errorhandler(ServiceUnavailable)
 def handle_service_unavailable(error):
     app.logger.debug(error.message)
     payload = dict(error.payload or ())
-    payload['success'] = False
-    payload['code'] = error.status
-    payload['message'] = error.message
+    payload["success"] = False
+    payload["code"] = error.status
+    payload["message"] = error.message
     return jsonify(payload), 503
 
 
@@ -42,11 +41,10 @@ def handle_service_unavailable(error):
 def handle_not_found(error):
     app.logger.debug(error.message)
     payload = dict(error.payload or ())
-    payload['success'] = False
-    payload['code'] = error.status
-    payload['message'] = error.message
+    payload["success"] = False
+    payload["code"] = error.status
+    payload["message"] = error.message
     return jsonify(payload), 404
-
 
 
 class HealthCheck(MethodView):
@@ -62,40 +60,35 @@ class FxConvertView(MethodView):
         app.logger.debug("entered get method in FxConvert")
 
         params, err = get_url_params()
-        if params["date"] == None:
-            date = datetime.datetime.now().date().strftime("%Y-%m-%d")
-        else:
-            date = params["date"]
-
         if err:
             raise UnprocessableEntity("Missing required parameters")
 
         req = requests.get(
             FX_DATA_URL
-            + "?from={}&to={}&date={}".format(
-                params["from"], params["to"], date
-            )
+            + "?from={}&to={}&date={}".format(params["from"], params["to"], date)
         )
 
         data = req.json()
 
         if req.status_code != 200:
             if req.status_code == 404:
-                raise NotFound("{}".format(data['message']))
-            raise ServiceUnavailable("failure from fxdata with status {}".format(req.status_code))
+                raise NotFound("{}".format(data["message"]))
+            raise ServiceUnavailable(
+                "failure from fxdata with status {}".format(req.status_code)
+            )
 
         app.logger.debug("result from fxdata: {}".format(data))
 
-        result = calculate_fx(str(params["amount"]), str(data['detail']['rate']))
+        result = calculate_fx(str(params["amount"]), str(data["detail"]["rate"]))
 
         response = response_builder(
             success=True,
             from_=params["from"],
             to=params["to"],
             amount=params["amount"],
-            rate=str(data['detail']['rate']),
+            rate=str(data["detail"]["rate"]),
             date=date,
-            result=str(result)
+            result=str(result),
         )
 
         return response.to_dict(), 200

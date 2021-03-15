@@ -24,7 +24,3 @@ def test_convert():
     result = convert.calculate_fx("1", "1.2")
     if result != Decimal("1.20"):
         assert 0
-
-
-        
-    
