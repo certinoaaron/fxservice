@@ -1,4 +1,5 @@
 import logging
+import datetime
 import requests
 from flask import Flask, request, jsonify
 from flask.views import MethodView
@@ -44,10 +45,16 @@ class FxConvertView(MethodView):
             return response.to_dict(), 422
 
         # TODO: improve this service call
+
+        if params["date"] == None:
+            date = datetime.datetime.now().date()
+        else:
+            date = params["date"]
+            
         req = requests.get(
             FX_DATA_URL
             + "?from={}&to={}&date={}".format(
-                params["from"], params["to"], params["date"]
+                params["from"], params["to"], date
             )
         )
 
@@ -92,8 +99,6 @@ class FxConvertView(MethodView):
                 amount=params["amount"],
             )
             return response.to_dict(), 503
-
-
 
 
         response = response = response_builder(
