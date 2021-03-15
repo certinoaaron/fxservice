@@ -93,6 +93,7 @@ class FxConvertView(MethodView):
             from_=params["from"],
             to=params["to"],
             amount=params["amount"],
+            rate=str(data['detail']['rate']),
             date=date,
             result=str(result)
         )
