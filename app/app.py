@@ -72,6 +72,7 @@ class FxConvertView(MethodView):
                 from_=params["from"],
                 to=params["to"],
                 amount=params["amount"],
+                date=date
             )
             return response.to_dict(), req.status_code
 
@@ -87,16 +88,19 @@ class FxConvertView(MethodView):
                 from_=params["from"],
                 to=params["to"],
                 amount=params["amount"],
+                date=date
             )
             return response.to_dict(), 503
+
         except Exception as e:
             app.logger.error(e)
-            app.logger.error("This is a catch all error, unsure what's happened ")
+            app.logger.error("This is a catch all error")
             response = response_builder(
                 success=False,
                 from_=params["from"],
                 to=params["to"],
                 amount=params["amount"],
+                date=date
             )
             return response.to_dict(), 503
 
@@ -106,6 +110,7 @@ class FxConvertView(MethodView):
             from_=params["from"],
             to=params["to"],
             amount=params["amount"],
+            date=date,
             result=result
         )
         return response.to_dict(), 200
