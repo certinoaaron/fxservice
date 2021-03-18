@@ -65,7 +65,7 @@ class FxConvertView(MethodView):
 
         req = requests.get(
             FX_DATA_URL
-            + "?from={}&to={}&date={}".format(params["from"], params["to"], date)
+            + "?from={}&to={}&date={}".format(params["from"], params["to"], params["date"])
         )
 
         data = req.json()
@@ -87,7 +87,7 @@ class FxConvertView(MethodView):
             to=params["to"],
             amount=params["amount"],
             rate=str(data["detail"]["rate"]),
-            date=date,
+            date=params["date"],
             result=str(result),
         )
 
