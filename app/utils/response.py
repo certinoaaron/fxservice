@@ -9,6 +9,7 @@ class Response:
         self.date = None
         self.rate = None
         self.result = None
+        self.client = None
 
     def __str__(self):
         return str(self.__repr__())
@@ -18,6 +19,7 @@ class Response:
             "success": self.success,
             "query": {"from": self.from_, "to": self.to, "ammount": self.amount},
             "date": self.date,
+            "client": self.client,
             "rate": self.rate,
             "result": self.result,
         }
@@ -27,7 +29,7 @@ class Response:
 
 
 def response_builder(
-    success=False, from_="", to="", amount="", date="", rate="", result=""
+    success=False, from_="", to="", amount="", date="", rate="", result="", client=""
 ) -> Response:
     """builds json response
 
@@ -56,4 +58,5 @@ def response_builder(
     resp.date = date
     resp.rate = rate
     resp.result = result
+    resp.client = client
     return resp
