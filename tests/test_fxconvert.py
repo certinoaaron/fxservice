@@ -37,6 +37,11 @@ def test_client_param(client):
         assert "wrong client given {} != test".format(response.client)
 
 
+def test_monthly_url(client):
+    response = client.get("/convert/monthly?from=GBP&to=USD&amount=1&client=test")
+    if response.status_code != 200:
+        assert "wrong response code given {} != 422".format(response.status_code)
+
 
 def test_client_param_default(client):
     response = client.get("/convert?from=GBP&to=USD&amount=1")

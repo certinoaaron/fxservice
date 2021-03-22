@@ -4,8 +4,7 @@ build:
 
 .PHONY: test
 test:
-	pytest -s -v
-
+	python3 -m pytest -v
 .PHONY: format
 format:
 	black .

@@ -106,6 +106,59 @@ class FxConvertView(MethodView):
 
         return response.to_dict(), 200
 
+class FxConvertMonthlyView(MethodView):
+
+    def get(self):
+        app.logger.debug("entered get method in FxConvert")
+
+        params, err = get_url_params()
+        if err:
+            raise UnprocessableEntity("Missing required parameters")
+
+        # added because mock just does not want to work today
+        if not app.config["TESTING"]:
+            req = requests.get(
+                FX_DATA_URL
+                + "/monthly?from={}&to={}&date={}".format(
+                    params["from"], params["to"], params["date"]
+                )
+            )
+            data = req.json()
+        else:
+            req = requests.Response()
+            req.status_code = 200
+            data = {
+                "status": "ok",
+                "statusCode": 200,
+                "message": "get rate for EUR to USD",
+                "detail": {"rate": "1.196231"},
+            }
+
+        if req.status_code != 200:
+            if req.status_code == 404:
+                raise NotFound("{}".format(data["message"]))
+            raise ServiceUnavailable(
+                "failure from fxdata with status {}".format(req.status_code)
+            )
+
+        app.logger.debug("result from fxdata: {}".format(data))
+
+        result = calculate_fx(str(params["amount"]), str(data["detail"]["rate"]))
+
+        response = response_builder(
+            success=True,
+            from_=params["from"],
+            to=params["to"],
+            amount=params["amount"],
+            rate=str(data["detail"]["rate"]),
+            date=params["date"],
+            result=str(result),
+            client=params['client']
+        )
+
+        return response.to_dict(), 200
+
 
 app.add_url_rule("/convert", view_func=FxConvertView.as_view("conversion_view"))
+app.add_url_rule("/convert/monthly", view_func=FxConvertMonthlyView.as_view("conversion_monthly_view"))
 app.add_url_rule("/healthcheck", view_func=HealthCheck.as_view("healthcheck_view"))
