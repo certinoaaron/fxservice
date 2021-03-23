@@ -67,8 +67,8 @@ class FxConvertView(MethodView):
         if not app.config["TESTING"]:
             req = requests.get(
                 FX_DATA_URL
-                + "?from={}&to={}&date={}".format(
-                    params["from"], params["to"], params["date"]
+                + "?from={}&to={}&date={}&client={}".format(
+                    params["from"], params["to"], params["date"], params['client']
                 )
             )
             data = req.json()
