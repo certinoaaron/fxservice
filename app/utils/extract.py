@@ -30,6 +30,7 @@ def get_url_params() -> (dict, bool):
             "amount": amount,
             "date": datetime.datetime.now().date().strftime("%Y-%m-%d"),
             "client": request.args.get("client", default="default"),
+            "method": request.args.get("method", default="day"),
         }, True
 
     date = request.args.get(
@@ -41,4 +42,5 @@ def get_url_params() -> (dict, bool):
         "amount": amount,
         "date": date,
         "client": request.args.get("client", default="default"),
+        "method": request.args.get("method", default="day"),
     }, False
