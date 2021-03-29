@@ -14,4 +14,4 @@ def calculate_fx(current: float, rate: float) -> Decimal:
     current = Decimal(current)
     rate = Decimal(rate)
 
-    return round(current * rate, 2)
+    return round(current * rate, 5)
