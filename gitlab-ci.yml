@@ -1,0 +1,31 @@
+stages: [test, coverage, build]
+
+test:
+  stage: test
+  image: python:3.8
+  before_script:
+    - python -V  # Print out python version for debugging
+    - pip install pytest flask requests
+  script:
+    - make test
+
+
+coverage:
+  stage: coverage
+  image: python:3.8
+  before_script:
+    - python -V  # Print out python version for debugging
+    - pip install pytest flask requests pytest-cov
+  script:
+    - make coverage
+
+
+build:
+  stage: build
+  image: docker:18.09.7
+  services: ['docker:18.09.7-dind']
+  before_script:
+    - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+  script:
+    - docker build -t ${CI_REGISTRY}/certino/fxservice:${CI_COMMIT_REF_SLUG} .
+    - docker push ${CI_REGISTRY}/certino/fxservice:${CI_COMMIT_REF_SLUG}
