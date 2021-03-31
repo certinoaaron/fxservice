@@ -91,7 +91,7 @@ class FxConvertView(MethodView):
 
         app.logger.debug("result from fxdata: {}".format(data))
 
-        result = calculate_fx(str(params["amount"]), str(data["detail"]["rate"]))
+        result = calculate_fx(str(params["amount"]), str(data["detail"]["rate"]), int(params['places']))
 
         response = response_builder(
             success=True,
