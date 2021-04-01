@@ -31,7 +31,7 @@ def get_url_params() -> (dict, bool):
             "date": datetime.datetime.now().date().strftime("%Y-%m-%d"),
             "client": request.args.get("client", default="default"),
             "method": request.args.get("method", default="day"),
-            "places": request.args.get("places", default=6)
+            "places": request.args.get("places", default=6),
         }, True
 
     date = request.args.get(
@@ -44,5 +44,5 @@ def get_url_params() -> (dict, bool):
         "date": date,
         "client": request.args.get("client", default="default"),
         "method": request.args.get("method", default="day"),
-        "places": request.args.get("places", default=6)
+        "places": request.args.get("places", default=6),
     }, False

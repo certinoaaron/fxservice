@@ -68,7 +68,11 @@ class FxConvertView(MethodView):
             req = requests.get(
                 FX_DATA_URL
                 + "?from={}&to={}&date={}&client={}&method={}".format(
-                    params["from"], params["to"], params["date"], params['client'], params['method']
+                    params["from"],
+                    params["to"],
+                    params["date"],
+                    params["client"],
+                    params["method"],
                 )
             )
             data = req.json()
@@ -91,7 +95,9 @@ class FxConvertView(MethodView):
 
         app.logger.debug("result from fxdata: {}".format(data))
 
-        result = calculate_fx(str(params["amount"]), str(data["detail"]["rate"]), int(params['places']))
+        result = calculate_fx(
+            str(params["amount"]), str(data["detail"]["rate"]), int(params["places"])
+        )
 
         response = response_builder(
             success=True,
@@ -101,10 +107,11 @@ class FxConvertView(MethodView):
             rate=str(data["detail"]["rate"]),
             date=params["date"],
             result=str(result),
-            client=params['client']
+            client=params["client"],
         )
 
         return response.to_dict(), 200
+
 
 app.add_url_rule("/convert", view_func=FxConvertView.as_view("conversion_view"))
 app.add_url_rule("/healthcheck", view_func=HealthCheck.as_view("healthcheck_view"))
