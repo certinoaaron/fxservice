@@ -17,7 +17,7 @@ class Response:
     def __repr__(self):
         return {
             "success": self.success,
-            "query": {"from": self.from_, "to": self.to, "ammount": self.amount},
+            "query": {"from": self.from_, "to": self.to, "amount": self.amount},
             "date": self.date,
             "client": self.client,
             "rate": self.rate,
