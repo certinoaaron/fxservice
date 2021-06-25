@@ -30,6 +30,7 @@ stages:
   - job: Test
     displayName: Test
     steps:
+    - script: pip3 install --upgrade pip
     - script: pip3 install pipenv
     - script: pipenv install
     - script: make test
