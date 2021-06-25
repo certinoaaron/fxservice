@@ -21,12 +21,25 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
+
+          
 stages:
-- stage: Prepare
-  displayName: Prepare
+- stage: Test
+  displayName: Test
   jobs:
-  - job: Prepare
-    displayName: Prepare
+  - job: Test
+    displayName: Test
+    steps:
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          pytest .
+- stage: Analyse
+  displayName: Analyse
+  jobs:
+  - job: Analyse
+    displayName: Analyse
     steps:
     - task: SonarQubePrepare@4
       inputs:
