@@ -22,8 +22,8 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Prepare Ananasis Config 
-  displayName: Prepare Ananasis Config 
+- stage: Prepare
+  displayName: Prepare
   jobs:
   - job: Prepare
     displayName: Prepare
@@ -56,8 +56,8 @@ stages:
         tags: |
           $(tag)
 
-- stage: Run Code Analysis
-  displayName: Run Code Analysis 
+- stage: Run
+  displayName: Run
   jobs:
   - job: Run
     displayName: Run
