@@ -36,6 +36,7 @@ stages:
         cliProjectKey: 'Certino_fxservice'
         cliProjectName: 'FXService'
         cliSources: '.'
+    - task: SonarQubeAnalyze@4
 
 
 - stage: Build
@@ -55,11 +56,3 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
-- stage: Run
-  displayName: Run
-  jobs:
-  - job: Run
-    displayName: Run
-    steps:
-    - task: SonarQubeAnalyze@4
