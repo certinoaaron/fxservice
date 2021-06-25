@@ -59,7 +59,7 @@ stages:
 - stage: Run Code Analysis
   displayName: Run Code Analysis 
   jobs:
-  - job: Run-Code
-    displayName: Run-Code-Analysis
+  - job: Run
+    displayName: Run
     steps:
     - task: SonarQubeAnalyze@4
