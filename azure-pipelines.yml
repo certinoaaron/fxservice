@@ -4,6 +4,8 @@
 
 trigger:
 - main
+- staging
+- development
 
 resources:
 - repo: self
@@ -14,12 +16,31 @@ variables:
   imageRepository: 'fxservice'
   containerRegistry: 'certino.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: '$(Build.SourceBranchName)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
+
+          
 stages:
+- stage: Analyse
+  displayName: Analyse
+  jobs:
+  - job: Analyse
+    displayName: Analyse
+    steps:
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'ProjectCertinoSonarQ'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'Certino_fxservice'
+        cliProjectName: 'FXService'
+        cliSources: '.'
+    - task: SonarQubeAnalyze@4
+
+
 - stage: Build
   displayName: Build and push stage
   jobs:
