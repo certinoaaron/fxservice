@@ -8,6 +8,7 @@ flask = "*"
 requests = "*"
 pytest-cov = "*"
 pytest = "*"
+ddtrace = "*"
 
 [dev-packages]
 
