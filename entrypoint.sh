@@ -1,2 +1,2 @@
 #!/bin/bash
-FLASK_APP="service" D_SERVICE="recharge-input" DD_AGENT_HOST="dd-agent" DD_TRACE_AGENT_PORT="8126" DD_LOGS_INJECTION=true DD_GEVENT_PATCH_ALL=true ddtrace-run  gunicorn --worker-class gevent --chdir service --workers 2 --bind 0.0.0.0:6101 service:app --max-requests 500 --timeout 2 --keep-alive 5 --log-level info
+FLASK_APP="service" DD_SERVICE="fxservice" DD_AGENT_HOST="dd-agent" DD_TRACE_AGENT_PORT="8126" DD_LOGS_INJECTION=true DD_GEVENT_PATCH_ALL=true ddtrace-run  gunicorn --worker-class gevent --chdir service --workers 2 --bind 0.0.0.0:6101 service:app --max-requests 500 --timeout 2 --keep-alive 5 --log-level info
