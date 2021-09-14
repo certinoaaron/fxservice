@@ -7,7 +7,15 @@ from .utils.response import response_builder
 from .utils.convert import calculate_fx
 from .utils.extract import yield_data, get_url_params
 from .utils.errors import UnprocessableEntity, ServiceUnavailable, NotFound
+from ddtrace.profiling import Profiler
+from gevent import monkey
+monkey.patch_all()
 
+prof = Profiler(
+    service="fxservice",  # if not specified, falls back to environment variable DD_SERVICE
+    version="1.0.3",   # if not specified, falls back to environment variable DD_VERSION
+)
+prof.start()
 
 app = Flask(__name__, static_folder=None)
 app.logger.setLevel(logging.DEBUG)

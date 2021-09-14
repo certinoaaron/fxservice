@@ -4,13 +4,14 @@ RUN pip install pipenv
 COPY Pipfile /tmp
 RUN cd /tmp && pipenv lock --keep-outdated --requirements > requirements.txt
 RUN pip install -r /tmp/requirements.txt
+RUN mkdir /app
 
 FROM python-deps AS production 
 
 ENV FXDATA_URL  127.0.0.1
 # install app into container
 WORKDIR /app
-COPY /app .
+COPY . .
 COPY entrypoint.sh /usr/bin/
 
 # Run the app
@@ -22,7 +23,7 @@ FROM python-deps AS dev
 ENV FXDATA_URL  127.0.0.1
 # install app into container
 WORKDIR /app
-COPY /app .
+COPY . .
 COPY entrypoint.sh /usr/bin/
 
 # Run the app
