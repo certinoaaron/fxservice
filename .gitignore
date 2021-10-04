@@ -105,3 +105,7 @@ venv.bak/
 /.vs/VSWorkspaceState.json
 /.vs/slnx.sqlite
 /.vs/fxservice/v16/.suo
+
+
+
+node_modules

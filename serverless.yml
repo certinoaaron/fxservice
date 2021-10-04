@@ -1,0 +1,29 @@
+app: fxservice
+service: fxservice
+
+frameworkVersion: '2'
+
+custom:
+  wsgi:
+    app: fxservice.app
+
+provider:
+  name: aws
+  runtime: python3
+  region: us-west-1
+  lambdaHashingVersion: '20201221'
+
+functions:
+  api:
+    handler: wsgi_handler.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: /{proxy+}
+          method: ANY
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
