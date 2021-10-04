@@ -11,6 +11,7 @@ custom:
   pythonRequirements:
     pythonBin: python3
   datadog:
+    site: "datadoghq.eu"
     addLayers: true
     apiKey: "28cacd85b9b0ba76c07e510e8e7c6166"
     flushMetricsToLogs: false
