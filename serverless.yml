@@ -7,6 +7,8 @@ plugins:
 custom:
   wsgi:
     app: fxservice.app
+  pythonRequirements:
+    pythonBin: python3
 
 provider:
   name: aws
