@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/certinoaaron/fxservice#readme",
   "devDependencies": {
+    "serverless-plugin-datadog": "^3.0.1",
     "serverless-python-requirements": "^5.1.1",
     "serverless-wsgi": "^2.0.2"
   }

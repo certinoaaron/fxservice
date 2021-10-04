@@ -1,6 +1,7 @@
 service: fxservice
 
 plugins:
+  - serverless-plugin-datadog
   - serverless-python-requirements
   - serverless-wsgi
 
@@ -9,6 +10,10 @@ custom:
     app: fxservice.app
   pythonRequirements:
     pythonBin: python3
+  datadog:
+    addLayers: true
+    apiKey: "28cacd85b9b0ba76c07e510e8e7c6166"
+    flushMetricsToLogs: false
 
 provider:
   name: aws
