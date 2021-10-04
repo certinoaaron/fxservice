@@ -7,14 +7,10 @@ plugins:
 custom:
   wsgi:
     app: fxservice.app
-    packRequirements: false
-  pythonRequirements:
-    dockerizePip: non-linux
 
 provider:
   name: aws
   runtime: python3
-  stage: dev
   region: us-east-1
 
 functions:
