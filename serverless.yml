@@ -1,4 +1,5 @@
 org: certino
+app: certino
 service: fxservice
 
 plugins:
