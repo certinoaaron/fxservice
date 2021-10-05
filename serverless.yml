@@ -3,11 +3,17 @@ app: certino
 service: fxservice
 
 plugins:
+  - serverless-domain-manager
   - serverless-plugin-datadog
   - serverless-python-requirements
   - serverless-wsgi
 
 custom:
+  customDomain:
+    domainName: certino-svs.net
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true
   wsgi:
     app: fxservice.app
   pythonRequirements:
